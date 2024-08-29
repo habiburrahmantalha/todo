@@ -6,12 +6,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo/core/settings/settings_cubit.dart';
-import 'package:todo/resource/theme.dart';
+import 'package:todo/core/network/dio_singleton.dart';
+import 'package:todo/core/resource/theme.dart';
+import 'package:todo/core/utils/storage_manager.dart';
 import 'package:todo/router/router.dart';
-import 'package:todo/screens/home/presentation/screen_home.dart';
-import 'package:todo/utils/dio_singleton.dart';
-import 'package:todo/utils/storage_manager.dart';
+import 'package:todo/screens/home/presentation/screens/screen_home.dart';
+import 'package:todo/screens/home/settings/blocs/settings_cubit.dart';
 
 import 'firebase_options.dart';
 

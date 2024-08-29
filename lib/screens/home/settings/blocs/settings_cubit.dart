@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo/resource/resource.dart';
-import 'package:todo/utils/storage_manager.dart';
+import 'package:todo/core/resource/resource.dart';
+import 'package:todo/core/utils/storage_manager.dart';
 
 part 'settings_state.dart';
 
