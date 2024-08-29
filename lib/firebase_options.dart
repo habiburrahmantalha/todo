@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -24,9 +25,22 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        return FirebaseOptions(
+          apiKey: dotenv.env['API_KEY_FIREBASE_ANDROID'] ?? '',
+          appId: '1:763114190977:android:41c707acf6f02862aa3580',
+          messagingSenderId: '763114190977',
+          projectId: 'tree-72417',
+          storageBucket: 'tree-72417.appspot.com',
+        );
       case TargetPlatform.iOS:
-        return ios;
+        return FirebaseOptions(
+          apiKey: dotenv.env['API_KEY_FIREBASE_IOS'] ?? '',
+          appId: '1:763114190977:ios:42255e2bb9c9bae4aa3580',
+          messagingSenderId: '763114190977',
+          projectId: 'tree-72417',
+          storageBucket: 'tree-72417.appspot.com',
+          iosBundleId: 'com.tree.todo',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -48,21 +62,4 @@ class DefaultFirebaseOptions {
         );
     }
   }
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCdco4ZPsRmPFMfgtQ9ScmoS4R7WC4crR8',
-    appId: '1:763114190977:android:41c707acf6f02862aa3580',
-    messagingSenderId: '763114190977',
-    projectId: 'tree-72417',
-    storageBucket: 'tree-72417.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD20254fRuokhj57nb9I2zy5mbf0C8piog',
-    appId: '1:763114190977:ios:42255e2bb9c9bae4aa3580',
-    messagingSenderId: '763114190977',
-    projectId: 'tree-72417',
-    storageBucket: 'tree-72417.appspot.com',
-    iosBundleId: 'com.tree.todo',
-  );
 }

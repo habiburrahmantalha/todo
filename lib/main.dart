@@ -5,6 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/network/dio_singleton.dart';
 import 'package:todo/core/resource/theme.dart';
@@ -17,6 +18,7 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -59,7 +61,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    DioSingleton.instance.create("6b4e80e85796a8845ebc68e7d9c9e67486f0cfe8");
+    DioSingleton.instance.create(dotenv.env['API_KEY_TODO'] ?? '');
     StorageManager.instance.create();
   }
 
