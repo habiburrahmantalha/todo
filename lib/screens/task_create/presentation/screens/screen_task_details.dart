@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/utils/utils.dart';
 import 'package:todo/router/router.dart';
-import 'package:todo/screens/home/task_list/data/models/task.dart';
+import 'package:todo/screens/home/task_list/domain/entities/task.dart';
 import 'package:todo/screens/task_create/presentation/blocs/task_bloc.dart';
 import 'package:todo/screens/task_create/presentation/widgets/comment_list.dart';
 import 'package:todo/widgets/bottom_sheet_button.dart';
@@ -93,7 +93,7 @@ class _ScreenTaskDetailsState extends State<ScreenTaskDetails> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.task?.due?.date ?? "", style: Theme.of(context).textTheme.bodySmall),
+                  Text(widget.task?.dueDate?.toIso8601String() ?? "", style: Theme.of(context).textTheme.bodySmall),
                   const Divider(),
                   Text("Title", style: Theme.of(context).textTheme.titleSmall,),
                   Text(widget.task?.content ?? "", style: Theme.of(context).textTheme.titleMedium,),

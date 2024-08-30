@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/constants/enums.dart';
 import 'package:todo/core/utils/utils.dart';
 import 'package:todo/router/router.dart';
-import 'package:todo/screens/home/task_list/data/models/task.dart';
+import 'package:todo/screens/home/task_list/domain/entities/task.dart';
+import 'package:todo/screens/home/task_list/presentation/blocs/task_list_bloc.dart';
 import 'package:todo/widgets/bottom_sheet_button.dart';
 import 'package:todo/widgets/raw_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class TaskCardView extends StatelessWidget {
@@ -18,15 +21,15 @@ class TaskCardView extends StatelessWidget {
     return RawButton(
       padding: const EdgeInsets.all(12),
       onTap: (){
-        context.go(RouterPaths.taskDetails(task.id ?? ""), extra: task);
+        context.go(RouterPaths.taskDetails(task.id), extra: task);
       },
       child: Row(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(task.due?.date ?? "", style: Theme.of(context).textTheme.bodySmall),
-              Text(task.content ?? "", style: Theme.of(context).textTheme.titleMedium,),
+              Text(task.dueDate?.toIso8601String() ?? "", style: Theme.of(context).textTheme.bodySmall),
+              Text(task.content, style: Theme.of(context).textTheme.titleMedium,),
               Text(task.description ?? "", style: Theme.of(context).textTheme.bodyLarge),
             ],
           ),
@@ -49,21 +52,27 @@ class TaskCardView extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if(task.labels?.firstOrNull == TaskStatus.todo.value || task.labels?.firstOrNull == TaskStatus.done.value)
+                          if(task.status == TaskStatus.todo || task.status == TaskStatus.inProgress)
+                          BottomSheetButton(onTap: (){
+                            Navigator.pop(context);
+                            addEventToGoogleCalendar(task);
+                          }, label: "Add to google Calender", icon: Icons.calendar_month,),
+
+                          if(task.status == TaskStatus.todo || task.status == TaskStatus.done)
                             BottomSheetButton(onTap: (){
                               Navigator.pop(context);
-                              //context.read<TaskBloc>().add(DeleteTaskCommentEvent(commentId: list[index].id ?? "", taskId: list[index].taskId ?? ""));
+                              context.read<TaskListBloc>().add(UpdateTaskStatusEvent(task, TaskStatus.inProgress));
                             }, label: "Move To In Progress", icon: Icons.play_arrow_outlined,),
-                          if(task.labels?.firstOrNull == TaskStatus.todo.value || task.labels?.firstOrNull == TaskStatus.inProgress.value)
+                          if(task.status == TaskStatus.todo || task.status == TaskStatus.inProgress)
                             BottomSheetButton(onTap: (){
                               Navigator.pop(context);
-                              //context.read<TaskBloc>().add(DeleteTaskCommentEvent(commentId: list[index].id ?? "", taskId: list[index].taskId ?? ""));
+                              context.read<TaskListBloc>().add(UpdateTaskStatusEvent(task, TaskStatus.done));
                             }, label: "Move To Done", icon: Icons.check,),
-                          if(task.labels?.firstOrNull == TaskStatus.inProgress.value || task.labels?.firstOrNull == TaskStatus.done.value)
+                          if(task.status == TaskStatus.inProgress || task.status == TaskStatus.done)
                             BottomSheetButton(onTap: (){
                               Navigator.pop(context);
-                              //context.read<TaskBloc>().add(DeleteTaskCommentEvent(commentId: list[index].id ?? "", taskId: list[index].taskId ?? ""));
-                            }, label: "Move To To Do", icon: Icons.check,),
+                              context.read<TaskListBloc>().add(UpdateTaskStatusEvent(task, TaskStatus.todo));
+                            }, label: "Move To To Do", icon: Icons.pending_actions,),
                           const SizedBox(height: 24,),
                         ],
                       ),
@@ -74,5 +83,24 @@ class TaskCardView extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+void addEventToGoogleCalendar(Task task) async {
+  final Uri googleCalendarUrl = Uri(
+    scheme: 'https',
+    host: 'www.google.com',
+    path: '/calendar/render',
+    queryParameters: {
+      'action': 'TEMPLATE',
+      'text': task.content,
+      'details': task.description,
+    },
+  );
+
+  if (await canLaunchUrl(googleCalendarUrl)) {
+    await launchUrl(googleCalendarUrl);
+  } else {
+    throw 'Could not launch $googleCalendarUrl';
   }
 }

@@ -1,5 +1,8 @@
-class Task {
-  Task({
+import 'package:todo/core/constants/enums.dart';
+import 'package:todo/screens/home/task_list/domain/entities/task.dart';
+
+class TaskModel {
+  TaskModel({
     this.id,
     this.content,
     this.description,
@@ -11,7 +14,7 @@ class Task {
     this.duration,
     this.deadline,});
 
-  Task.fromJson(dynamic json) {
+  TaskModel.fromJson(dynamic json) {
     id = json['id'];
     order = json['order'];
     content = json['content'];
@@ -57,6 +60,19 @@ class Task {
     }
     map['deadline'] = deadline;
     return map;
+  }
+
+  Task toEntity(){
+    return Task(
+      id: id ?? "",
+      content: content ?? "",
+      description: description ?? "",
+      status: TaskStatus.values.firstWhere((e) => e.value == labels?.firstOrNull, orElse: ()=> TaskStatus.todo),
+      createdAt: createdAt != null ? DateTime.tryParse(createdAt!) : null,
+      dueDate: due?.datetime != null ? DateTime.tryParse(due!.datetime!) : null,
+      duration: duration?.amount,
+      commentCount: commentCount
+    );
   }
 
 }
@@ -116,5 +132,4 @@ class Due {
     map['datetime'] = datetime;
     return map;
   }
-
 }

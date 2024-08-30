@@ -20,15 +20,13 @@ class _PageTaskViewState extends State<PageTaskView> with AutomaticKeepAliveClie
   Widget build(BuildContext context) {
     super.build(context);
     return BlocBuilder<TaskListBloc, TaskListState>(
-      builder: (context, taskState) {
-        TaskLoaded state = taskState as TaskLoaded;
+      builder: (context, state) {
         return DefaultTabController(
             length: 3,
             child: Column(
               children: [
                 const TabBar(
                     isScrollable: true,
-
                     tabs: [
                       Tab(text: 'TO DO'),
                       Tab(text: 'IN PROGRESS'),
@@ -36,9 +34,9 @@ class _PageTaskViewState extends State<PageTaskView> with AutomaticKeepAliveClie
                     ]),
                 Expanded(
                   child: TabBarView(children: [
-                    TaskListView(list: state.listTodo,),
-                    TaskListView(list: state.listInProgress,),
-                    TaskListView(list: state.listDone,)
+                    TaskListView(list: state.listTodo ?? []),
+                    TaskListView(list: state.listInProgress ?? []),
+                    TaskListView(list: state.listDone ?? [])
                   ]),
                 ),
               ],

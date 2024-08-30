@@ -1,11 +1,14 @@
-enum TaskStatus{
-  todo(title: "To Do", value: "todo"),
-  inProgress(title: "In Progress", value: "in_progress"),
-  done(title: "Done", value: "done");
+import 'package:flutter/material.dart';
 
-  const TaskStatus({required this.title, required this.value});
+enum TaskStatus{
+  todo(title: "To Do", value: "todo", icon: Icons.pending_actions),
+  inProgress(title: "In Progress", value: "in_progress", icon: Icons.play_arrow_outlined),
+  done(title: "Done", value: "done", icon: Icons.check);
+
+  const TaskStatus({required this.title, required this.value, required this.icon});
   final String title;
   final String value;
+  final IconData icon;
 }
 
 enum LoadingStatus {

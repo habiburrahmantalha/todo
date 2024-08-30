@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/core/constants/enums.dart';
 import 'package:todo/core/utils/utils.dart';
 import 'package:todo/screens/task_create/data/models/comment.dart';
-import 'package:todo/screens/task_create/data/models/request_comment_create.dart';
-import 'package:todo/screens/task_create/data/models/request_task_create.dart';
+import 'package:todo/screens/task_create/data/models/request_comment.dart';
+import 'package:todo/screens/task_create/data/models/request_task.dart';
 import 'package:todo/screens/task_create/data/repositories/repository_task.dart';
 
 part 'task_event.dart';
@@ -23,14 +23,16 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           emit(state.copyWith(description: event.value));
         case SetDateEvent():
           emit(state.copyWith(date: event.value));
+        case SetStatusEvent():
+          emit(state.copyWith(taskStatus: event.value));
         case CreateTaskEvent():
           emit(state.copyWith(statusTaskCreate: LoadingStatus.loading));
           try {
-            await repository.createTask(RequestTaskCreate(
+            await repository.createTask(RequestTask(
               content: state.title,
               description: state.description,
               dueDatetime: state.date?.toIso8601String(),
-              labels: ["todo"]
+              labels: [state.taskStatus?.value ?? TaskStatus.todo.value]
             ));
             emit(state.copyWith(statusTaskCreate: LoadingStatus.success));
           }
@@ -42,10 +44,11 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         case UpdateTaskEvent():
           emit(state.copyWith(statusTaskCreate: LoadingStatus.loading));
           try {
-            await repository.createTask(RequestTaskCreate(
+            await repository.createTask(RequestTask(
               content: state.title,
               description: state.description,
               dueDatetime: state.date?.toIso8601String(),
+              labels: [state.taskStatus?.value ?? TaskStatus.todo.value]
             ));
             emit(state.copyWith(statusTaskCreate: LoadingStatus.success));
           }
@@ -55,7 +58,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           }
         case AddTaskCommentEvent():
           try {
-            await repository.createComment(RequestCommentCreate(
+            await repository.createComment(RequestComment(
               taskId: event.id,
               content: event.value,
             ));

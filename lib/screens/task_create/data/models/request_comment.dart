@@ -1,9 +1,9 @@
-class RequestCommentCreate {
-  RequestCommentCreate({
+class RequestComment {
+  RequestComment({
       this.taskId, 
       this.content,});
 
-  RequestCommentCreate.fromJson(dynamic json) {
+  RequestComment.fromJson(dynamic json) {
     taskId = json['task_id'];
     content = json['content'];
   }

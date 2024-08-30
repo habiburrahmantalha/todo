@@ -1,5 +1,5 @@
-class RequestTaskCreate {
-  RequestTaskCreate({
+class RequestTask {
+  RequestTask({
       this.content, 
       this.dueDatetime, 
       this.description, 
@@ -7,7 +7,7 @@ class RequestTaskCreate {
       this.duration, 
       this.durationUnit,});
 
-  RequestTaskCreate.fromJson(dynamic json) {
+  RequestTask.fromJson(dynamic json) {
     content = json['content'];
     dueDatetime = json['due_datetime'];
     description = json['description'];
