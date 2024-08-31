@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fbroadcast/fbroadcast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,16 +47,16 @@ class _ScreenTaskDetailsState extends State<ScreenTaskDetails> {
           if(state.statusTaskDelete?.isSuccess == true){
             context.go(ScreenHome.routeName);
             FBroadcast.instance().broadcast("reload_task");
-            showOkToast("Task deleted", type: ToastType.error);
+            showOkToast(context.tr("task_deleted"), type: ToastType.error);
           }
           else if(state.statusTaskDelete?.isFailed == true){
-            showOkToast("Something went wrong", type: ToastType.error);
+            showOkToast(context.tr("something_went_wrong"), type: ToastType.error);
           }
         },
         builder: (context, state){
           return Scaffold(
             appBar: AppBar(
-              title: const Text("Task Details"),
+              title: Text(context.tr("task_details")),
               actions: [
                 RawButton(
                     color: Colors.transparent,
@@ -80,13 +81,13 @@ class _ScreenTaskDetailsState extends State<ScreenTaskDetails> {
                                   onTap: (){
                                     Navigator.pop(context);
                                     context.go(RouterPaths.taskUpdatePathFromDetails, extra: widget.task);
-                                  }, label: "Edit", icon: Icons.edit,),
+                                  }, label: context.tr("edit"), icon: Icons.edit,),
                                 BottomSheetButton(
                                   color: Theme.of(context).colorScheme.onError,
                                   onTap: (){
                                     Navigator.pop(context);
                                     context.read<TaskBloc>().add(DeleteTaskEvent(widget.task?.id ?? ""));
-                                  }, label: "Delete", icon: Icons.delete,),
+                                  }, label: context.tr("delete"), icon: Icons.delete,),
                                 const SizedBox(height: 24,),
                               ],
                             ),
@@ -114,22 +115,22 @@ class _ScreenTaskDetailsState extends State<ScreenTaskDetails> {
                               children: [
                                 Text(widget.task?.dueDate?.toddMMMyyyy() ?? "", style: Theme.of(context).textTheme.bodySmall),
                                 const Divider(),
-                                Text("Title", style: Theme.of(context).textTheme.titleSmall,),
+                                Text(context.tr("title"), style: Theme.of(context).textTheme.titleSmall,),
                                 Text((widget.task?.content ?? ""), style: Theme.of(context).textTheme.titleMedium,),
                                 const SizedBox(height: 12,),
-                                Text("Description", style: Theme.of(context).textTheme.titleSmall,),
+                                Text(context.tr("description"), style: Theme.of(context).textTheme.titleSmall,),
                                 Text((widget.task?.description ?? ""), style: Theme.of(context).textTheme.bodyLarge),
                                 const SizedBox(height: 12,),
-                                Text("Status", style: Theme.of(context).textTheme.titleSmall,),
+                                Text(context.tr("status"), style: Theme.of(context).textTheme.titleSmall,),
                                 Text(widget.task?.status.title ?? "", style: Theme.of(context).textTheme.bodyLarge),
                                 const SizedBox(height: 12,),
-                                Text("Spent Time", style: Theme.of(context).textTheme.titleSmall,),
+                                Text(context.tr("spent_time"), style: Theme.of(context).textTheme.titleSmall,),
                                 Text(formatDuration(widget.task?.duration ?? 0), style: Theme.of(context).textTheme.bodyLarge),
                               ],
                             ),
                           ),
                           const SizedBox(height: 24,),
-                          Text("Comments (${(state.commentList ?? []).length})", style: Theme.of(context).textTheme.titleMedium),
+                          Text("${context.tr("comments")} (${(state.commentList ?? []).length})", style: Theme.of(context).textTheme.titleMedium),
                           const SizedBox(height: 12,),
                           const Divider(),
                           const CommentList(),
@@ -151,7 +152,7 @@ class _ScreenTaskDetailsState extends State<ScreenTaskDetails> {
                                 maxLines: null,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                  hintText: "Add a comment",
+                                  hintText: context.tr("add_a_comment"),
                                   filled: true,
                                   suffixIcon: RawButton(
                                       color: Colors.transparent,

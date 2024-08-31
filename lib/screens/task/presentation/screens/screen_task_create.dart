@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fbroadcast/fbroadcast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +37,10 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
   void initState() {
     super.initState();
     if(widget.task != null){
-      dateController.text = widget.task?.dueDate?.toIso8601String() ?? "";
+      DateTime? date = widget.task?.dueDate;
+      if(date != null){
+        dateController.text = "${date.year}-${date.month}-${date.day}";
+      }
       statusController.text = widget.task?.status.title ?? TaskStatus.todo.title;
       context.read<TaskBloc>().add(SetStatusEvent(widget.task?.status ?? TaskStatus.todo));
       context.read<TaskBloc>().add(SetDateEvent(widget.task?.dueDate));
@@ -55,20 +59,20 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
         if(state.statusTaskCreate?.isSuccess == true){
           context.go(ScreenHome.routeName);
           FBroadcast.instance().broadcast("reload_task");
-          showOkToast("Task Created", type: ToastType.success);
+          showOkToast(context.tr("task_created"), type: ToastType.success);
         }
         else if(state.statusTaskUpdate?.isSuccess == true){
           context.go(ScreenHome.routeName);
           FBroadcast.instance().broadcast("reload_task");
-          showOkToast("Task Updated", type: ToastType.success);
+          showOkToast(context.tr("task_updated"), type: ToastType.success);
         }
         else if(state.statusTaskCreate?.isFailed == true || state.statusTaskUpdate?.isFailed == true){
-          showOkToast("Something went wrong", type: ToastType.error);
+          showOkToast(context.tr("something_went_wrong"), type: ToastType.error);
         }
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: Text(widget.task != null ? "Update" : "Create"),),
+          appBar: AppBar(title: Text(widget.task != null ? context.tr("update") : context.tr("create")),),
           body: Form(
               key: formKey,
               child: Padding(
@@ -78,8 +82,8 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
                     InputTextFormField(
                       initialValue: widget.task?.content,
                       textInputAction: TextInputAction.next,
-                      labelText: "Label",
-                      hintText: "e.g Make dinner",
+                      labelText: context.tr("title"),
+                      hintText: context.tr("make_dinner"),
                       onChanged: (value){
                         context.read<TaskBloc>().add(SetTitleEvent(value));
                       },
@@ -88,8 +92,8 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
                     InputTextFormField(
                       initialValue: widget.task?.description,
                       textInputAction: TextInputAction.newline,
-                      labelText: "Description",
-                      hintText: "e.g Enter the steps to prepare dinner",
+                      labelText: context.tr("description"),
+                      hintText: context.tr("enter_the_steps_to_prepare_dinner"),
                       onChanged: (value){
                         context.read<TaskBloc>().add(SetDescriptionEvent(value));
                       },
@@ -99,7 +103,7 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
                       focusNode: dateFocusNode,
                       controller: dateController,
                       readOnly: true,
-                      labelText: "Due Date",
+                      labelText: context.tr("due_date"),
                       onTap: (){
                         showDatePicker(
                           context: context,
@@ -120,7 +124,7 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
                       focusNode: statusFocusNode,
                       controller: statusController,
                       readOnly: true,
-                      labelText: "Status",
+                      labelText: context.tr("status"),
                       onTap: (){
                         showSelectStatusBottomSheet(context, (value){
                           statusController.text = value.title;
@@ -145,7 +149,7 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
                 },
                 child: state.statusTaskCreate?.isLoading == true || state.statusTaskUpdate?.isLoading == true ?
                 const LoadingIndicator( ) :
-                Center(child: Text(widget.task != null ? "Update": "Create"))),
+                Center(child: Text(widget.task != null ? context.tr("update"): context.tr("create")))),
           ),
         );
       },

@@ -33,7 +33,7 @@ Future<void> main() async {
     return true;
   };
   runApp(EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('bn')],
+      supportedLocales: const [Locale('en'), Locale('de'), Locale('tr')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       useOnlyLangCode: true,

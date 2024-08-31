@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/screens/home/presentation/blocs/home_cubit.dart';
@@ -68,14 +69,14 @@ class _ScreenHomeState extends State<ScreenHome> {
               onTap: (index) {
                 _c.jumpToPage(index);
               },
-              items: const <BottomNavigationBarItem>[
+              items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  label: "Task",
-                  icon: Icon(Icons.list),
+                  label: context.tr("task"),
+                  icon: const Icon(Icons.list),
                 ),
                 BottomNavigationBarItem(
-                  label: "Settings",
-                  icon: Icon(Icons.settings),
+                  label: context.tr("settings"),
+                  icon: const Icon(Icons.settings),
                 ),
               ],
             ),

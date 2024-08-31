@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/generated/assets.dart';
@@ -19,11 +20,11 @@ class TaskListView extends StatelessWidget {
           children: [
             Expanded(
                 child: list.isEmpty ? EmptyView(
-                  title: "Task not found",
-                  description: "Add some task",
+                  title: context.tr("task_not_found"),
+                  description: context.tr("add_a_task"),
                   button: RawButton(
                       padding: const EdgeInsets.all(12),
-                      child: Center(child: Text("Create Task", style: Theme.of(context).textTheme.titleMedium)),
+                      child: Center(child: Text(context.tr("create_task"), style: Theme.of(context).textTheme.titleMedium)),
                       onTap: (){}
                   ),
                   image: Image.asset(Assets.imagesEmpty, height: 128,),

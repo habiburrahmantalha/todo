@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,33 +10,57 @@ import 'package:todo/widgets/bottom_sheet_button.dart';
 import 'package:todo/widgets/loading_indicator.dart';
 import 'package:todo/widgets/raw_button.dart';
 
+import 'language.dart';
+
 class PageSettings extends StatelessWidget {
   const PageSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Settings"),),
+      appBar: AppBar(title: Text(context.tr("settings")),),
       body: Column(
         children: [
-          // Text(
-          //   AppLocalizations.of(context).settings_screen_theme_mode_option,
-          //   style: TextStyle(
-          //     fontSize: AppDimens.mediumFontSize,
-          //     color: Theme.of(context).hintColor,
-          //     fontWeight: FontWeight.w400,
-          //   ),
-          // ),
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Icon(FontAwesomeIcons.language, color: Theme.of(context).iconTheme.color),
+                const SizedBox(width: 12,),
+                Text(context.tr("language"))
+              ],
+            ),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: languageList.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                onTap: (){
+                  context.setLocale(Locale(languageList[index].code));
+                },
+                title: Text(languageList[index].title),
+                leading: Radio<String>(
+                  value: languageList[index].code,
+                  groupValue: context.locale.languageCode,
+                  onChanged: (value) {
+                    context.setLocale(Locale(value ?? "en"));
+                  },
+                ),
+              );
+            },
+          ),
           BlocBuilder<SettingsCubit, SettingsState>(
             builder: (context, state) {
               ThemeMode themeMode = state.theme ?? (context.isDarkMode ? ThemeMode.dark : ThemeMode.light);
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12),
                 child: Row(
                   children: [
                     Icon(FontAwesomeIcons.palette, color: Theme.of(context).iconTheme.color),
                     const SizedBox(width: 12,),
-                    Text(themeMode == ThemeMode.dark ? "Dark" : "Light", style: Theme.of(context).textTheme.labelLarge),
+                    Text("${context.tr("theme")} (${themeMode == ThemeMode.dark ? context.tr("dark") : context.tr("light")})", style: Theme.of(context).textTheme.labelLarge),
                     const Spacer(),
                     Switch(
                       value: themeMode == ThemeMode.dark,
@@ -49,9 +73,8 @@ class PageSettings extends StatelessWidget {
               );
             },
           ),
-
-          if(kDebugMode)
-          const WidgetColorCheck()
+          //if(kDebugMode)
+          //const WidgetColorCheck()
         ],
       ),
     );
@@ -84,7 +107,7 @@ class WidgetColorCheck extends StatelessWidget {
           const SizedBox(height: 12,),
           const LoadingIndicator(),
           const SizedBox(height: 12,),
-          CommentCardView(comment: Comment(content: " dkfjh dkfj")),
+          CommentCardView(comment: Comment(content: " comment card check")),
           const SizedBox(height: 12,),
           BottomSheetButton(
             color: Colors.indigo[400],

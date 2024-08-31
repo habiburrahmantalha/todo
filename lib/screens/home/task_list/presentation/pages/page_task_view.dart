@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/screens/home/task_list/presentation/blocs/task_list_cubit.dart';
@@ -25,12 +26,12 @@ class _PageTaskViewState extends State<PageTaskView> with AutomaticKeepAliveClie
             length: 3,
             child: Column(
               children: [
-                const TabBar(
+                TabBar(
                     isScrollable: true,
                     tabs: [
-                      Tab(text: 'TO DO'),
-                      Tab(text: 'IN PROGRESS'),
-                      Tab(text: 'DONE'),
+                      Tab(text: context.tr("to_do")),
+                      Tab(text: context.tr("in_progress")),
+                      Tab(text: context.tr("done")),
                     ]),
                 Expanded(
                   child: TabBarView(children: [

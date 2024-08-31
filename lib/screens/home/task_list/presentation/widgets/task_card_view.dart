@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,12 +32,12 @@ class TaskCardView extends StatelessWidget {
         },
         listener: (context, state){
           if(state.status.isSuccess){
-            showOkToast("Task updated", type: ToastType.success);
+            showOkToast(context.tr("task_updated"), type: ToastType.success);
             //context.read<TaskProgressBloc>().add(const ResetTaskUpdateStatusEvent());
             context.read<TaskListCubit>().getTaskList();
           }
           else if(state.status.isFailed){
-            showOkToast("Task update failed!", type: ToastType.error);
+            showOkToast(context.tr("task_update_failed"), type: ToastType.error);
             context.read<TaskProgressBloc>().add(const ResetTaskUpdateStatusEvent());
           }
         },
@@ -59,9 +60,9 @@ class TaskCardView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if(task.dueDate != null)
-                              Text("Due date: ${task.dueDate?.toddMMMyyyy() ?? ""}", style: Theme.of(context).textTheme.bodySmall),
+                              Text("${context.tr("due_date")}: ${task.dueDate?.toddMMMyyyy() ?? ""}", style: Theme.of(context).textTheme.bodySmall),
                             if((state.taskDB?.duration ?? 0) + state.duration > 0)
-                              Text("Spent: ${state.isStarted ?  formatDuration((state.taskDB?.duration ?? 0) + state.duration) :
+                              Text("${context.tr("spent")}: ${state.isStarted ?  formatDuration((state.taskDB?.duration ?? 0) + state.duration) :
                               formatDuration(state.taskDB?.duration ?? 0)}", style: Theme.of(context).textTheme.bodySmall),
 
                           ],
@@ -95,6 +96,7 @@ class TaskCardView extends StatelessWidget {
                                   color: Theme.of(context).iconTheme.color,
                                 ),
                                 onTap: (){
+                                  context.read<TaskProgressBloc>().add(const UpdateTaskStatusEvent(TaskStatus.done));
                                   // if(state.isStarted) {
                                   //   context.read<TaskProgressCubit>().endTask();
                                   // }else{
@@ -122,7 +124,7 @@ class TaskCardView extends StatelessWidget {
                                               BottomSheetButton(onTap: (){
                                                 Navigator.pop(context);
                                                 addEventToGoogleCalendar(task);
-                                              }, label: "Add to google Calender", icon: Icons.calendar_month,),
+                                              }, label: context.tr("add_to_google_calender"), icon: Icons.calendar_month,),
 
                                             if(task.status == TaskStatus.todo || task.status == TaskStatus.done)
                                               BottomSheetButton(
@@ -130,19 +132,19 @@ class TaskCardView extends StatelessWidget {
                                                 onTap: (){
                                                   Navigator.pop(context);
                                                   context.read<TaskProgressBloc>().add(const UpdateTaskStatusEvent(TaskStatus.inProgress));
-                                                }, label: "Move To In Progress", icon: Icons.play_arrow_outlined,),
+                                                }, label: context.tr("move_to_in_progress"), icon: Icons.play_arrow_outlined,),
                                             if(task.status == TaskStatus.todo || task.status == TaskStatus.inProgress)
                                               BottomSheetButton(onTap: (){
                                                 Navigator.pop(context);
                                                 context.read<TaskProgressBloc>().add(const UpdateTaskStatusEvent( TaskStatus.done));
-                                              }, label: "Move To Done", icon: Icons.check,),
+                                              }, label: context.tr("move_to_done"), icon: Icons.check,),
                                             if(task.status == TaskStatus.inProgress || task.status == TaskStatus.done)
                                               BottomSheetButton(
                                                 color: Colors.brown[400],
                                                 onTap: (){
                                                   Navigator.pop(context);
-                                                  context.read<TaskProgressBloc>().add(const UpdateTaskStatusEvent( TaskStatus.todo));
-                                                }, label: "Move To To Do", icon: Icons.pending_actions,),
+                                                  context.read<TaskProgressBloc>().add( const UpdateTaskStatusEvent( TaskStatus.todo));
+                                                }, label: context.tr("move_to_to_do"), icon: Icons.pending_actions,),
 
                                             BottomSheetButton(
                                               color: Colors.blueGrey[400],
@@ -150,15 +152,15 @@ class TaskCardView extends StatelessWidget {
                                                 Navigator.pop(context);
                                                 context.go(RouterPaths.taskUpdatePathFromHome, extra: task);
                                               },
-                                              label: "Edit", icon: Icons.edit,),
+                                              label: context.tr("edit"), icon: Icons.edit,),
 
                                             BottomSheetButton(
                                               color: Theme.of(context).colorScheme.onError,
                                               onTap: (){
                                                 Navigator.pop(context);
-                                                context.read<TaskProgressBloc>().add(const DeleteTaskEvent());
+                                                context.read<TaskProgressBloc>().add( const DeleteTaskEvent());
                                               },
-                                              label: "Delete", icon: Icons.delete,),
+                                              label: context.tr("delete"), icon: Icons.delete,),
 
                                             const SizedBox(height: 24,),
                                           ],

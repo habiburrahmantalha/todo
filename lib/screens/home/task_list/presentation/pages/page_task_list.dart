@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fbroadcast/fbroadcast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +39,7 @@ class _PageTaskListState extends State<PageTaskList> with AutomaticKeepAliveClie
         builder: (context, state){
           return Scaffold(
               appBar: AppBar(
-                title: const Text("Task"),
+                title: Text(context.tr("task")),
                 actions: [
                   RawButton(
                       color: Colors.transparent,
@@ -46,7 +47,7 @@ class _PageTaskListState extends State<PageTaskList> with AutomaticKeepAliveClie
                       padding: const EdgeInsets.all(12),
                       child: Row(
                         children: [
-                          const Text("Create"),
+                          Text(context.tr("create")),
                           Icon(Icons.add, color: Theme.of(context).iconTheme.color)
                         ],
                       ),
@@ -60,10 +61,10 @@ class _PageTaskListState extends State<PageTaskList> with AutomaticKeepAliveClie
                 ],
               ),
               body: state.status == LoadingStatus.failed ? EmptyView(
-                title: "Something went wrong,\n Please try again",
+                title: context.tr("something_went_wrong_please_try_again"),
                 button:RawButton(
                     padding: const EdgeInsets.all(12),
-                    child: Center(child: Text("Reload Task", style: Theme.of(context).textTheme.titleMedium)),
+                    child: Center(child: Text(context.tr("reload_task"), style: Theme.of(context).textTheme.titleMedium)),
                     onTap: (){
                       context.read<TaskListCubit>().getTaskList();
                     }
