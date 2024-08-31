@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todo/core/utils/extensions.dart';
 import 'package:todo/screens/home/settings/blocs/settings_cubit.dart';
-import 'package:todo/screens/task_create/data/models/comment.dart';
-import 'package:todo/screens/task_create/presentation/widgets/comment_list.dart';
+import 'package:todo/screens/task/data/models/comment.dart';
+import 'package:todo/screens/task/presentation/widgets/comment_card_view.dart';
+import 'package:todo/widgets/bottom_sheet_button.dart';
 import 'package:todo/widgets/loading_indicator.dart';
 import 'package:todo/widgets/raw_button.dart';
 
@@ -33,7 +34,7 @@ class PageSettings extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    const Icon(FontAwesomeIcons.palette, color: Colors.grey),
+                    Icon(FontAwesomeIcons.palette, color: Theme.of(context).iconTheme.color),
                     const SizedBox(width: 12,),
                     Text(themeMode == ThemeMode.dark ? "Dark" : "Light", style: Theme.of(context).textTheme.labelLarge),
                     const Spacer(),
@@ -85,6 +86,12 @@ class WidgetColorCheck extends StatelessWidget {
           const SizedBox(height: 12,),
           CommentCardView(comment: Comment(content: " dkfjh dkfj")),
           const SizedBox(height: 12,),
+          BottomSheetButton(
+            color: Colors.indigo[400],
+            onTap: (){
+
+            },
+            label: "Edit", icon: Icons.edit,),
         ],
       ),
     );

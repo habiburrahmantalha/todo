@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:todo/core/network/dio_singleton.dart';
 import 'package:todo/core/resource/theme.dart';
 import 'package:todo/core/utils/storage_manager.dart';
@@ -38,7 +39,7 @@ Future<void> main() async {
       useOnlyLangCode: true,
       child: BlocProvider(
         create: (context) => SettingsCubit(),
-        child: const MyApp(),
+        child: const OKToast(child: MyApp()),
       ))
   );
 }

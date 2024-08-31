@@ -50,10 +50,11 @@ class CreateTaskEvent extends TaskEvent {
 
 class UpdateTaskEvent extends TaskEvent {
 
-  const UpdateTaskEvent();
+  final String id;
+  const UpdateTaskEvent(this.id);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [id];
 }
 
 class AddTaskCommentEvent extends TaskEvent {

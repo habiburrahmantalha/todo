@@ -3,6 +3,7 @@ class Assets {
   Assets._();
 
   static const String imagesEmpty = 'assets/images/empty.png';
+  static const String todo = '.env';
   static const String translationsBn = 'assets/translations/bn.json';
   static const String translationsEn = 'assets/translations/en.json';
 

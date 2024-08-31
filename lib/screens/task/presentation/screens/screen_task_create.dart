@@ -1,10 +1,12 @@
+import 'package:fbroadcast/fbroadcast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/constants/enums.dart';
 import 'package:todo/core/utils/utils.dart';
+import 'package:todo/screens/home/presentation/screens/screen_home.dart';
 import 'package:todo/screens/home/task_list/domain/entities/task.dart';
-import 'package:todo/screens/task_create/presentation/blocs/task_bloc.dart';
+import 'package:todo/screens/task/presentation/blocs/task_bloc.dart';
 import 'package:todo/widgets/bottom_app_bar_container.dart';
 import 'package:todo/widgets/bottom_sheet_button.dart';
 import 'package:todo/widgets/input_text_form_field.dart';
@@ -33,10 +35,9 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
   @override
   void initState() {
     super.initState();
-
     if(widget.task != null){
       dateController.text = widget.task?.dueDate?.toIso8601String() ?? "";
-      statusController.text = widget.task?.status.title ?? "";
+      statusController.text = widget.task?.status.title ?? TaskStatus.todo.title;
       context.read<TaskBloc>().add(SetStatusEvent(widget.task?.status ?? TaskStatus.todo));
       context.read<TaskBloc>().add(SetDateEvent(widget.task?.dueDate));
     }
@@ -52,9 +53,17 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
     return BlocConsumer<TaskBloc, TaskState>(
       listener: (context, state){
         if(state.statusTaskCreate?.isSuccess == true){
-          context.pop(true);
-        }else if(state.statusTaskCreate?.isFailed == true){
-
+          context.go(ScreenHome.routeName);
+          FBroadcast.instance().broadcast("reload_task");
+          showOkToast("Task Created", type: ToastType.success);
+        }
+        else if(state.statusTaskUpdate?.isSuccess == true){
+          context.go(ScreenHome.routeName);
+          FBroadcast.instance().broadcast("reload_task");
+          showOkToast("Task Updated", type: ToastType.success);
+        }
+        else if(state.statusTaskCreate?.isFailed == true || state.statusTaskUpdate?.isFailed == true){
+          showOkToast("Something went wrong", type: ToastType.error);
         }
       },
       builder: (context, state) {
@@ -129,12 +138,14 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
                 radius: 8,
                 onTap: (){
                   if(widget.task != null){
-                    context.read<TaskBloc>().add(const UpdateTaskEvent());
+                    context.read<TaskBloc>().add(UpdateTaskEvent(widget.task?.id ?? ""));
                   }else{
                     context.read<TaskBloc>().add(const CreateTaskEvent());
                   }
-
-                }, child: state.statusTaskCreate?.isLoading == true ? const LoadingIndicator( ) : Center(child: Text(widget.task != null ? "Update": "Create"))),
+                },
+                child: state.statusTaskCreate?.isLoading == true || state.statusTaskUpdate?.isLoading == true ?
+                const LoadingIndicator( ) :
+                Center(child: Text(widget.task != null ? "Update": "Create"))),
           ),
         );
       },

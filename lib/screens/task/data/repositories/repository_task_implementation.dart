@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:todo/core/network/api_endpoint.dart';
 import 'package:todo/core/network/dio_singleton.dart';
 import 'package:todo/screens/home/task_list/data/models/task_model.dart';
-import 'package:todo/screens/task_create/data/models/comment.dart';
-import 'package:todo/screens/task_create/data/models/request_comment.dart';
-import 'package:todo/screens/task_create/data/models/request_task.dart';
+import 'package:todo/screens/task/data/models/comment.dart';
+import 'package:todo/screens/task/data/models/request_comment.dart';
+import 'package:todo/screens/task/data/models/request_task.dart';
 
-import 'repository_task.dart';
+import '../../domain/repositories/repository_task.dart';
 
 class RepositoryTaskImplementation implements RepositoryTask {
 

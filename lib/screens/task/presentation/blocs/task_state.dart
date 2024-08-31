@@ -7,6 +7,7 @@ class TaskState extends Equatable {
   final DateTime? date;
   final TaskStatus? taskStatus;
   final LoadingStatus? statusTaskCreate;
+  final LoadingStatus? statusTaskUpdate;
   final LoadingStatus? statusCommentList;
   final LoadingStatus? statusTaskDelete;
   final List<Comment>? commentList;
@@ -20,6 +21,7 @@ class TaskState extends Equatable {
         date,
         taskStatus,
         statusTaskCreate,
+        statusTaskUpdate,
         statusCommentList,
         statusTaskDelete,
         commentList,
@@ -32,6 +34,7 @@ class TaskState extends Equatable {
     this.date,
     this.taskStatus,
     this.statusTaskCreate,
+    this.statusTaskUpdate,
     this.statusCommentList,
     this.statusTaskDelete,
     this.commentList,
@@ -44,6 +47,7 @@ class TaskState extends Equatable {
     DateTime? date,
     TaskStatus? taskStatus,
     LoadingStatus? statusTaskCreate,
+    LoadingStatus? statusTaskUpdate,
     LoadingStatus? statusCommentList,
     LoadingStatus? statusTaskDelete,
     List<Comment>? commentList,
@@ -55,6 +59,7 @@ class TaskState extends Equatable {
       date: date ?? this.date,
       taskStatus: taskStatus ?? this.taskStatus,
       statusTaskCreate: statusTaskCreate ?? this.statusTaskCreate,
+      statusTaskUpdate: statusTaskUpdate ?? this.statusTaskUpdate,
       statusCommentList: statusCommentList ?? this.statusCommentList,
       statusTaskDelete: statusTaskDelete ?? this.statusTaskDelete,
       commentList: commentList ?? this.commentList,

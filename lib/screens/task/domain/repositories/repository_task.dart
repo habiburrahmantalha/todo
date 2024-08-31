@@ -1,9 +1,9 @@
 
 
 import 'package:todo/screens/home/task_list/data/models/task_model.dart';
-import 'package:todo/screens/task_create/data/models/comment.dart';
-import 'package:todo/screens/task_create/data/models/request_comment.dart';
-import 'package:todo/screens/task_create/data/models/request_task.dart';
+import 'package:todo/screens/task/data/models/comment.dart';
+import 'package:todo/screens/task/data/models/request_comment.dart';
+import 'package:todo/screens/task/data/models/request_task.dart';
 
 abstract interface class RepositoryTask {
   Future<TaskModel> createTask(RequestTask request);

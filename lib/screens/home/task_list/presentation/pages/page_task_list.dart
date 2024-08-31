@@ -1,10 +1,11 @@
+import 'package:fbroadcast/fbroadcast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/constants/enums.dart';
-import 'package:todo/screens/home/task_list/presentation/blocs/task_list_bloc.dart';
+import 'package:todo/router/router.dart';
+import 'package:todo/screens/home/task_list/presentation/blocs/task_list_cubit.dart';
 import 'package:todo/screens/home/task_list/presentation/pages/page_task_view.dart';
-import 'package:todo/screens/task_create/presentation/screens/screen_task_create.dart';
 import 'package:todo/widgets/empty_view.dart';
 import 'package:todo/widgets/loading_indicator.dart';
 import 'package:todo/widgets/raw_button.dart';
@@ -22,9 +23,18 @@ class _PageTaskListState extends State<PageTaskList> with AutomaticKeepAliveClie
   bool get wantKeepAlive => true;
 
   @override
+  void initState() {
+    super.initState();
+
+    FBroadcast.instance().register("reload_task", (_, __){
+      reloadTaskList();
+    }, context: this);
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocBuilder<TaskListBloc, TaskListState>(
+    return BlocBuilder<TaskListCubit, TaskListState>(
         builder: (context, state){
           return Scaffold(
               appBar: AppBar(
@@ -33,18 +43,20 @@ class _PageTaskListState extends State<PageTaskList> with AutomaticKeepAliveClie
                   RawButton(
                       color: Colors.transparent,
                       margin: const EdgeInsets.only(right: 8),
-                      padding: const EdgeInsets.all(8),
-                      child: const Row(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
                         children: [
-                          Text("Create"),
-                          Icon(Icons.add)
+                          const Text("Create"),
+                          Icon(Icons.add, color: Theme.of(context).iconTheme.color)
                         ],
                       ),
-                      onTap: ()=> context.pushNamed(ScreenTaskCreate.routeName).then((value){
-                        if( (value as bool?) == true){
-                            reloadTaskList();
-                        }
-                      }))
+                      onTap: ()=> context.go(RouterPaths.taskCreatePath)
+                          // .then((value){
+                          //   if( (value as bool?) == true){
+                          //     reloadTaskList();
+                          //   }
+                          // })
+                  )
                 ],
               ),
               body: state.status == LoadingStatus.failed ? EmptyView(
@@ -53,7 +65,7 @@ class _PageTaskListState extends State<PageTaskList> with AutomaticKeepAliveClie
                     padding: const EdgeInsets.all(12),
                     child: Center(child: Text("Reload Task", style: Theme.of(context).textTheme.titleMedium)),
                     onTap: (){
-                      context.read<TaskListBloc>().add(GetTaskListEvent());
+                      context.read<TaskListCubit>().getTaskList();
                     }
                 ),
               ) :
@@ -67,7 +79,7 @@ class _PageTaskListState extends State<PageTaskList> with AutomaticKeepAliveClie
 
   reloadTaskList(){
     if (!mounted) return;
-    context.read<TaskListBloc>().add(GetTaskListEvent());
+    context.read<TaskListCubit>().getTaskList();
   }
 }
 

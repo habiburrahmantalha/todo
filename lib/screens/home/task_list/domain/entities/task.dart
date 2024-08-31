@@ -34,4 +34,26 @@ class Task extends Equatable {
         dueDate,
         duration,
       ];
+
+  Task copyWith({
+    String? id,
+    String? content,
+    String? description,
+    TaskStatus? status,
+    int? commentCount,
+    DateTime? createdAt,
+    DateTime? dueDate,
+    int? duration,
+  }) {
+    return Task(
+      id: id ?? this.id,
+      content: content ?? this.content,
+      description: description ?? this.description,
+      status: status ?? this.status,
+      commentCount: commentCount ?? this.commentCount,
+      createdAt: createdAt ?? this.createdAt,
+      dueDate: dueDate ?? this.dueDate,
+      duration: duration ?? this.duration,
+    );
+  }
 }

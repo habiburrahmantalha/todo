@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo/screens/home/task_list/presentation/blocs/task_list_bloc.dart';
+import 'package:todo/screens/home/task_list/presentation/blocs/task_list_cubit.dart';
 import 'package:todo/screens/home/task_list/presentation/widgets/task_list_view.dart';
 
 
@@ -19,7 +19,7 @@ class _PageTaskViewState extends State<PageTaskView> with AutomaticKeepAliveClie
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocBuilder<TaskListBloc, TaskListState>(
+    return BlocBuilder<TaskListCubit, TaskListState>(
       builder: (context, state) {
         return DefaultTabController(
             length: 3,
