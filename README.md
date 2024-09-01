@@ -63,9 +63,7 @@ Follow these instructions to set up the project and run it locally.
 
 Here’s a video preview of the App in action:
 
-<video>
-    <source src="https://drive.google.com/uc?export=view&id=10g2pKR0udmm_4OWljd5Dlt3UmyFn0K57" type='video/mp4'>
-</video>
+[![Watch the video](https://drive.google.com/uc?export=view&id=1TKCPHetmOc9MmwUNZJAfo5G1U8-8_ZYS)](https://drive.google.com/uc?export=view&id=10g2pKR0udmm_4OWljd5Dlt3UmyFn0K57)
 
 ### Prerequisites
 
