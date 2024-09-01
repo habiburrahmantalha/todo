@@ -63,7 +63,9 @@ Follow these instructions to set up the project and run it locally.
 
 Here’s a video preview of the App in action:
 
-<iframe width="560" height="315" src="https://drive.google.com/file/d/11k8RnxSukY2uweHDlpMR5yhN79JD1qWn/view" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video width="560" height="315" controls>
+  <source src="https://drive.google.com/file/d/11k8RnxSukY2uweHDlpMR5yhN79JD1qWn/view" type="video/mp4">
+</video>
 
 ### Prerequisites
 
