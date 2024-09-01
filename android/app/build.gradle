@@ -61,6 +61,9 @@ android {
                 storeFile file(keystoreProperties['storeFile'])
                 storePassword keystoreProperties['storePassword']
             }
+            else {
+                throw new GradleException("Key properties file not found.")
+            }
         }
     }
 
@@ -69,9 +72,6 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            ndk {
-                debugSymbolLevel 'SYMBOL_TABLE'
-            }
         }
     }
 
