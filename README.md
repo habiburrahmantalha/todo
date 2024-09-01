@@ -37,17 +37,18 @@ This app demonstrates the use of state management, REST API integration, and mod
 
 *(Include relevant screenshots of the app here)*
 
-https://drive.google.com/file/d/1Nbn6EO5iVKBihT3TkA5dDWcwZVW5i4d3/view?usp=sharing
+### Home Screen
+![Home Screen](https://drive.google.com/file/d/1TKCPHetmOc9MmwUNZJAfo5G1U8-8_ZYS/view)
+![Home Screen](https://drive.google.com/file/d/1tnfDzw3tNqcwGMyLzk4uPBlWaCQiySRK/view)
+![Home Screen](https://drive.google.com/file/d/1Nbn6EO5iVKBihT3TkA5dDWcwZVW5i4d3/view)
 
-https://drive.google.com/file/d/1g5Oicvf2R_p9-h5afzav6QmTQ-tz4DVI/view?usp=sharing
+### Task Details Screen
+![Task Details Screen](https://drive.google.com/file/d/1g5Oicvf2R_p9-h5afzav6QmTQ-tz4DVI/view)
+![Task Details Screen](https://drive.google.com/file/d/1Hl6lqx2dREkPZKiuLwU1SiFAeQugn02G/view)
 
-https://drive.google.com/file/d/1Hl6lqx2dREkPZKiuLwU1SiFAeQugn02G/view?usp=sharing
+### Create Task Screen
+![Create Task Screen](https://drive.google.com/file/d/17kYzHTxOl_UlA9h_y8pnm0c8MywpfTkO/view)
 
-https://drive.google.com/file/d/1TKCPHetmOc9MmwUNZJAfo5G1U8-8_ZYS/view?usp=drive_link
-
-https://drive.google.com/file/d/1tnfDzw3tNqcwGMyLzk4uPBlWaCQiySRK/view?usp=drive_link
-
-https://drive.google.com/file/d/17kYzHTxOl_UlA9h_y8pnm0c8MywpfTkO/view?usp=drive_link
 
 ## Getting Started
 
