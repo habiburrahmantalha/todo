@@ -63,9 +63,9 @@ Follow these instructions to set up the project and run it locally.
 
 Here’s a video preview of the App in action:
 
-<div>
-    <iframe width="560" height="315" src="https://drive.google.com/uc?export=view&id=10g2pKR0udmm_4OWljd5Dlt3UmyFn0K57" allowfullscreen></iframe>
-</div>
+<video>
+    <source src="https://drive.google.com/uc?export=view&id=10g2pKR0udmm_4OWljd5Dlt3UmyFn0K57" type='video/mp4'>
+</video>
 
 ### Prerequisites
 
