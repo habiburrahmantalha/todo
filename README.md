@@ -55,17 +55,13 @@ Here are some screenshots of the App in action:
 
 <img src="https://drive.google.com/uc?export=view&id=17kYzHTxOl_UlA9h_y8pnm0c8MywpfTkO" alt="Home Screen" width="300"/>
 
+## Video Preview
+
+Here’s a video preview of the App in action: [Video](https://drive.google.com/file/d/11k8RnxSukY2uweHDlpMR5yhN79JD1qWn/view)
+
 ## Getting Started
 
 Follow these instructions to set up the project and run it locally.
-
-## Video Preview
-
-Here’s a video preview of the App in action:
-
-<video width="560" height="315" controls>
-  <source src="https://drive.google.com/file/d/11k8RnxSukY2uweHDlpMR5yhN79JD1qWn/view" type="video/mp4">
-</video>
 
 ### Prerequisites
 
