@@ -29,7 +29,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.24.0
+          flutter-version: 3.24.1
 
       - name: Install dependencies
         run: flutter pub get
@@ -40,9 +40,24 @@ jobs:
       #name: Run widget tests for our flutter project.
       #- run: flutter test
 
+      - name: Accept Android Licenses
+        run: yes | flutter doctor --android-licenses
+
+      - name: Set up Keystore
+        # Decode and save the keystore file
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > $GITHUB_WORKSPACE/android/app/keystore.jks
+
+      - name: Configure Signing Key
+        # Create the key.properties file with signing information
+        run: |
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_WORKSPACE/android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_WORKSPACE/android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> $GITHUB_WORKSPACE/android/key.properties
+          echo "storeFile=keystore.jks" >> $GITHUB_WORKSPACE/android/key.properties
+
       - name: Build Android Release
         run: flutter build apk --release --dart-define=API_KEY_TODO=${{ secrets.API_KEY_TODO }} --dart-define=API_KEY_FIREBASE_ANDROID=${{ secrets.API_KEY_FIREBASE_ANDROID }} --dart-define=API_KEY_FIREBASE_IOS=${{ secrets.API_KEY_FIREBASE_IOS }}
-
 
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v3

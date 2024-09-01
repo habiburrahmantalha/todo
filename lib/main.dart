@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,10 +20,29 @@ import 'package:todo/screens/home/settings/blocs/settings_cubit.dart';
 
 import 'firebase_options.dart';
 
+String apiKey = "";
+String firebaseIos = "";
+String firebaseAndroid = "";
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
   await EasyLocalization.ensureInitialized();
+  if (const String.fromEnvironment("API_KEY_TODO").isNotEmpty) {
+    apiKey = const String.fromEnvironment("API_KEY_TODO");
+    firebaseIos = const String.fromEnvironment("API_KEY_FIREBASE_IOS");
+    firebaseAndroid = const String.fromEnvironment("API_KEY_FIREBASE_ANDROID");
+  }else{
+    try {
+      await dotenv.load(fileName: ".env");
+      apiKey = dotenv.env['API_KEY_TODO'] ?? "";
+      firebaseIos = dotenv.env['API_KEY_FIREBASE_IOS'] ?? "";
+      firebaseAndroid = dotenv.env['API_KEY_FIREBASE_ANDROID'] ?? "";
+    }catch(e){
+      throw UnsupportedError("dotenv file not found",);
+    }
+  }
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -63,7 +84,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    DioSingleton.instance.create(dotenv.env['API_KEY_TODO'] ?? '');
+    DioSingleton.instance.create(apiKey);
     StorageManager.instance.create();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

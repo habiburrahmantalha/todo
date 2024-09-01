@@ -8,7 +8,14 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
+    compileSdkVersion 35
     namespace = "com.tree.todo"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
@@ -30,12 +37,41 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        multiDexEnabled true
+        ndk {
+            debugSymbolLevel 'FULL'
+        }
+    }
+
+    signingConfigs {
+        release {
+            if (project.hasProperty('keyProperties')) {
+                def keyProperties = new Properties()
+                file('key.properties').withInputStream { stream ->
+                    keyProperties.load(stream)
+                }
+                storeFile = file(keyProperties['storeFile'])
+                storePassword = keyProperties['storePassword']
+                keyAlias = keyProperties['keyAlias']
+                keyPassword = keyProperties['keyPassword']
+            }
+            else if(keystorePropertiesFile.exists()){
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+            else {
+                throw new GradleException("Key properties file not found.")
+            }
+        }
     }
 
     buildTypes {
         release {
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
