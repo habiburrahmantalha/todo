@@ -59,6 +59,14 @@ Here are some screenshots of the App in action:
 
 Follow these instructions to set up the project and run it locally.
 
+## Video Preview
+
+Here’s a video preview of the App in action:
+
+<div>
+    <iframe width="560" height="315" src="https://drive.google.com/uc?export=view&id=10g2pKR0udmm_4OWljd5Dlt3UmyFn0K57" allowfullscreen></iframe>
+</div>
+
 ### Prerequisites
 
 - Flutter SDK: 3.24.0 [Installation Guide](https://flutter.dev/docs/get-started/install)
