@@ -46,3 +46,27 @@ jobs:
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Release APK
+        uses: actions/download-artifact@v3
+        with:
+          name: app-release.apk
+          path: .
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: app-release.apk
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            ## Release Notes
+            - Automatic build and upload of the APK.
+            - Additional notes can be added here.
+          draft: false
+          prerelease: false
