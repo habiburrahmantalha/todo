@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -63,7 +65,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    DioSingleton.instance.create(dotenv.env['API_KEY_TODO'] ?? '');
+    DioSingleton.instance.create(Platform.environment['API_KEY_TODO'] ?? dotenv.env['API_KEY_TODO'] ?? '');
     StorageManager.instance.create();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
