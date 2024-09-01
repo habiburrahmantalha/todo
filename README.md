@@ -39,17 +39,18 @@ This app demonstrates the use of state management, REST API integration, and mod
 
 ### Home Screen
 
-![Home Screen](https://drive.google.com/uc?export=view&id=1TKCPHetmOc9MmwUNZJAfo5G1U8-8_ZYS)
-![Home Screen](https://drive.google.com/uc?export=view&id=1tnfDzw3tNqcwGMyLzk4uPBlWaCQiySRK)
-![Home Screen](https://drive.google.com/uc?export=view&id=1Nbn6EO5iVKBihT3TkA5dDWcwZVW5i4d3)
+<img src="https://drive.google.com/uc?export=view&id=1TKCPHetmOc9MmwUNZJAfo5G1U8-8_ZYS" alt="Home Screen" width="300"/>
+<img src="https://drive.google.com/uc?export=view&id=1tnfDzw3tNqcwGMyLzk4uPBlWaCQiySRK" alt="Home Screen" width="300"/>
+<img src="https://drive.google.com/uc?export=view&id=1Nbn6EO5iVKBihT3TkA5dDWcwZVW5i4d3" alt="Home Screen" width="300"/>
 
 ### Task Details Screen
-![Task Details Screen](https://drive.google.com/uc?export=view&id=1g5Oicvf2R_p9-h5afzav6QmTQ-tz4DVI)
-![Task Details Screen](https://drive.google.com/uc?export=view&id=1Hl6lqx2dREkPZKiuLwU1SiFAeQugn02G)
+
+<img src="https://drive.google.com/uc?export=view&id=1g5Oicvf2R_p9-h5afzav6QmTQ-tz4DVI" alt="Home Screen" width="300"/>
+<img src="https://drive.google.com/uc?export=view&id=1Hl6lqx2dREkPZKiuLwU1SiFAeQugn02G" alt="Home Screen" width="300"/>
 
 ### Create Task Screen
-![Create Task Screen](https://drive.google.com/uc?export=view&id=17kYzHTxOl_UlA9h_y8pnm0c8MywpfTkO)
 
+<img src="https://drive.google.com/uc?export=view&id=17kYzHTxOl_UlA9h_y8pnm0c8MywpfTkO" alt="Home Screen" width="300"/>
 
 ## Getting Started
 
