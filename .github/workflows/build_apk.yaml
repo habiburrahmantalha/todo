@@ -29,7 +29,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.24.0
+          flutter-version: 3.24.1
 
       - name: Install dependencies
         run: flutter pub get
@@ -42,6 +42,19 @@ jobs:
 
       - name: Accept Android Licenses
         run: yes | flutter doctor --android-licenses
+
+      - name: Set up Keystore
+        # Decode and save the keystore file
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/keystore.jks
+
+      - name: Configure Signing Key
+        # Create the key.properties file with signing information
+        run: |
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> key.properties
+          echo "storeFile=app/keystore.jks" >> key.properties
 
       - name: Build Android Release
         run: flutter build apk --release --dart-define=API_KEY_TODO=${{ secrets.API_KEY_TODO }} --dart-define=API_KEY_FIREBASE_ANDROID=${{ secrets.API_KEY_FIREBASE_ANDROID }} --dart-define=API_KEY_FIREBASE_IOS=${{ secrets.API_KEY_FIREBASE_IOS }}
