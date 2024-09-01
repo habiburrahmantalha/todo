@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*.*.*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,7 +47,7 @@ jobs:
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: release-apk
+          name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
   release:
@@ -63,7 +66,6 @@ jobs:
           artifacts: app-release.apk
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
           body: |
             ## Release Notes
             - Automatic build and upload of the APK.
