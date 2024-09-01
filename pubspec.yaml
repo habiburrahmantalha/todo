@@ -82,7 +82,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - .env #uncomment this line before trying debug build
+#    - .env #uncomment this line before trying debug build
     - assets/translations/
     - assets/images/
 
