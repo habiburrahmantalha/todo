@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:todo/core/network/dio_singleton.dart';
@@ -19,22 +20,28 @@ import 'package:todo/screens/home/settings/blocs/settings_cubit.dart';
 
 import 'firebase_options.dart';
 
+String apiKey = "";
+String firebaseIos = "";
+String firebaseAndroid = "";
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  // if (Platform.environment.containsKey('API_KEY_TODO')) {
-  //
-  // }else{
-  //   try {
-  //     await dotenv.load(fileName: ".env");
-  //   }catch(e){
-  //     throw UnsupportedError("dotenv file not found",);
-  //   }
-  // }
-  print("fromEnvironment");
-  print(const String.fromEnvironment("API_KEY_TODO"));
-  print(const String.fromEnvironment("API_KEY_FIREBASE_ANDROID"));
-  print(const String.fromEnvironment("API_KEY_FIREBASE_IOS"));
+  if (const String.fromEnvironment("API_KEY_TODO").isNotEmpty) {
+    apiKey = const String.fromEnvironment("API_KEY_TODO");
+    firebaseIos = const String.fromEnvironment("API_KEY_FIREBASE_IOS");
+    firebaseAndroid = const String.fromEnvironment("API_KEY_FIREBASE_ANDROID");
+  }else{
+    try {
+      await dotenv.load(fileName: ".env");
+      apiKey = dotenv.env['API_KEY_TODO'] ?? "";
+      firebaseIos = dotenv.env['API_KEY_FIREBASE_IOS'] ?? "";
+      firebaseAndroid = dotenv.env['API_KEY_FIREBASE_ANDROID'] ?? "";
+    }catch(e){
+      throw UnsupportedError("dotenv file not found",);
+    }
+  }
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -77,7 +84,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    DioSingleton.instance.create(const String.fromEnvironment("API_KEY_TODO"));
+    DioSingleton.instance.create(apiKey);
     StorageManager.instance.create();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
