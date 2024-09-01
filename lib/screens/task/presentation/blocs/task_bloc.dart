@@ -5,9 +5,9 @@ import 'package:todo/core/constants/enums.dart';
 import 'package:todo/core/database/database_helper.dart';
 import 'package:todo/core/database/task_db_model.dart';
 import 'package:todo/core/utils/utils.dart';
-import 'package:todo/screens/task/data/models/comment.dart';
 import 'package:todo/screens/task/data/models/request_comment.dart';
 import 'package:todo/screens/task/data/models/request_task.dart';
+import 'package:todo/screens/task/domain/entities/entity_comment.dart';
 import 'package:todo/screens/task/domain/repositories/repository_task.dart';
 
 part 'task_event.dart';
@@ -93,8 +93,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         case GetCommentListEvent():
           emit(state.copyWith(statusCommentList: LoadingStatus.loading));
           try {
-            List<Comment> list = await repository.getCommentListByTask(event.id);
-            emit(state.copyWith(commentList: list, currentTime: DateTime.now().millisecond, statusCommentList: LoadingStatus.success));
+            List<EntityComment> list = await repository.getCommentListByTask(event.id);
+            emit(state.copyWith(commentList: list, statusCommentList: LoadingStatus.success));
           }
           catch(e){
             printDebug("GetCommentListEvent $e");

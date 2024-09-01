@@ -1,6 +1,6 @@
 part of 'home_cubit.dart';
 
-class HomeState {
+class HomeState extends Equatable {
   final int? selectedTab;
 
   const HomeState({this.selectedTab});
@@ -12,5 +12,8 @@ class HomeState {
       selectedTab: selectedTab ?? this.selectedTab,
     );
   }
+
+  @override
+  List<Object?> get props => [selectedTab];
 }
 

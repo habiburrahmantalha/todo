@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todo/core/utils/utils.dart';
-import 'package:todo/screens/task/data/models/comment.dart';
+import 'package:todo/screens/task/domain/entities/entity_comment.dart';
 import 'package:todo/screens/task/presentation/blocs/task_bloc.dart';
 import 'package:todo/widgets/bottom_sheet_button.dart';
 import 'package:todo/widgets/raw_button.dart';
@@ -11,7 +11,7 @@ import 'package:todo/widgets/raw_button.dart';
 class CommentCardView extends StatelessWidget {
   const CommentCardView({super.key, required this.comment});
 
-  final Comment comment;
+  final EntityComment comment;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class CommentCardView extends StatelessWidget {
         child: Row(
           children: [
             const SizedBox(width: 12,),
-            Text(comment.content ?? ""),
+            Text(comment.content),
             const Spacer(),
             RawButton(
                 color: Colors.transparent,
@@ -48,7 +48,7 @@ class CommentCardView extends StatelessWidget {
                               color: Theme.of(context).colorScheme.onError,
                               onTap: (){
                                 Navigator.pop(context);
-                                context.read<TaskBloc>().add(DeleteTaskCommentEvent(commentId: comment.id ?? "", taskId: comment.taskId ?? ""));
+                                context.read<TaskBloc>().add(DeleteTaskCommentEvent(commentId: comment.id, taskId: comment.taskId));
                               }, label: context.tr("delete"), icon: Icons.delete,),
                             const SizedBox(height: 24,),
                           ],

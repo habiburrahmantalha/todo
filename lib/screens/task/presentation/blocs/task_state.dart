@@ -10,8 +10,8 @@ class TaskState extends Equatable {
   final LoadingStatus? statusTaskUpdate;
   final LoadingStatus? statusCommentList;
   final LoadingStatus? statusTaskDelete;
-  final List<Comment>? commentList;
-  final int? currentTime;
+  final List<EntityComment>? commentList;
+
 
   @override
   List<Object?> get props =>
@@ -25,7 +25,6 @@ class TaskState extends Equatable {
         statusCommentList,
         statusTaskDelete,
         commentList,
-        currentTime,
       ];
 
   const TaskState({
@@ -38,7 +37,7 @@ class TaskState extends Equatable {
     this.statusCommentList,
     this.statusTaskDelete,
     this.commentList,
-    this.currentTime,
+
   });
 
   TaskState copyWith({
@@ -50,8 +49,8 @@ class TaskState extends Equatable {
     LoadingStatus? statusTaskUpdate,
     LoadingStatus? statusCommentList,
     LoadingStatus? statusTaskDelete,
-    List<Comment>? commentList,
-    int? currentTime,
+    List<EntityComment>? commentList,
+
   }) {
     return TaskState(
       title: title ?? this.title,
@@ -63,7 +62,6 @@ class TaskState extends Equatable {
       statusCommentList: statusCommentList ?? this.statusCommentList,
       statusTaskDelete: statusTaskDelete ?? this.statusTaskDelete,
       commentList: commentList ?? this.commentList,
-      currentTime: currentTime ?? this.currentTime,
     );
   }
 }

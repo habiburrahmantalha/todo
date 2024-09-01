@@ -5,6 +5,7 @@ import 'package:todo/screens/home/task_list/data/models/task_model.dart';
 import 'package:todo/screens/task/data/models/comment.dart';
 import 'package:todo/screens/task/data/models/request_comment.dart';
 import 'package:todo/screens/task/data/models/request_task.dart';
+import 'package:todo/screens/task/domain/entities/entity_comment.dart';
 
 import '../../domain/repositories/repository_task.dart';
 
@@ -29,12 +30,12 @@ class RepositoryTaskImplementation implements RepositoryTask {
   }
 
   @override
-  Future<List<Comment>> getCommentListByTask(String? taskId) async {
+  Future<List<EntityComment>> getCommentListByTask(String? taskId) async {
     Response response = await getHttp(ApiEndpoint.getCommentListByTask(taskId));
-    List<Comment> list = [];
+    List<EntityComment> list = [];
     if (response.data != null) {
       response.data.forEach((v) {
-        list.add(Comment.fromJson(v));
+        list.add(Comment.fromJson(v).toEntity());
       });
     }
     return list;

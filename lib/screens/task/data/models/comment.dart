@@ -1,3 +1,5 @@
+import 'package:todo/screens/task/domain/entities/entity_comment.dart';
+
 class Comment {
   Comment({
       this.id, 
@@ -23,6 +25,10 @@ class Comment {
     map['content'] = content;
     map['posted_at'] = postedAt;
     return map;
+  }
+
+  EntityComment toEntity(){
+    return EntityComment(id: id ?? "", content: content ?? "", taskId: taskId ?? "");
   }
 
 }

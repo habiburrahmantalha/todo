@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todo/core/utils/extensions.dart';
 import 'package:todo/screens/home/settings/blocs/settings_cubit.dart';
-import 'package:todo/screens/task/data/models/comment.dart';
+import 'package:todo/screens/task/domain/entities/entity_comment.dart';
 import 'package:todo/screens/task/presentation/widgets/comment_card_view.dart';
 import 'package:todo/widgets/bottom_sheet_button.dart';
 import 'package:todo/widgets/loading_indicator.dart';
@@ -107,7 +107,7 @@ class WidgetColorCheck extends StatelessWidget {
           const SizedBox(height: 12,),
           const LoadingIndicator(),
           const SizedBox(height: 12,),
-          CommentCardView(comment: Comment(content: " comment card check")),
+          const CommentCardView(comment: EntityComment(id: "", content: " comment card check", taskId: "", )),
           const SizedBox(height: 12,),
           BottomSheetButton(
             color: Colors.indigo[400],
