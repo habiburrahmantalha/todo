@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:todo/core/network/dio_singleton.dart';
@@ -22,15 +21,15 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.environment.containsKey('API_KEY_TODO')) {
-
-  }else{
-    try {
-      await dotenv.load(fileName: ".env");
-    }catch(e){
-      throw UnsupportedError("dotenv file not found",);
-    }
-  }
+  // if (Platform.environment.containsKey('API_KEY_TODO')) {
+  //
+  // }else{
+  //   try {
+  //     await dotenv.load(fileName: ".env");
+  //   }catch(e){
+  //     throw UnsupportedError("dotenv file not found",);
+  //   }
+  // }
 
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(
@@ -74,7 +73,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    DioSingleton.instance.create(Platform.environment['API_KEY_TODO'] ?? dotenv.env['API_KEY_TODO'] ?? '');
+    DioSingleton.instance.create(Platform.environment['API_KEY_TODO'] ?? "");
     StorageManager.instance.create();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

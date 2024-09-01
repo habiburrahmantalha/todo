@@ -50,7 +50,7 @@ dependencies:
   google_fonts: ^6.2.1
   mocktail: ^1.0.4
   bloc_test: ^9.0.3
-  flutter_dotenv: ^5.1.0
+#  flutter_dotenv: ^5.1.0
   url_launcher: ^6.3.0
   oktoast: ^3.4.0
   fbroadcast: ^2.0.0
