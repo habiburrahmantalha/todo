@@ -35,18 +35,21 @@ This app demonstrates the use of state management, REST API integration, and mod
 
 ## Screenshots
 
-*(Include relevant screenshots of the app here)*
+Here are some screenshots of the App in action:
 
 ### Home Screen
-
-<img src="https://drive.google.com/uc?export=view&id=1TKCPHetmOc9MmwUNZJAfo5G1U8-8_ZYS" alt="Home Screen" width="300"/>
-<img src="https://drive.google.com/uc?export=view&id=1tnfDzw3tNqcwGMyLzk4uPBlWaCQiySRK" alt="Home Screen" width="300"/>
-<img src="https://drive.google.com/uc?export=view&id=1Nbn6EO5iVKBihT3TkA5dDWcwZVW5i4d3" alt="Home Screen" width="300"/>
+<div style="display: flex; gap: 10px;">
+   <img src="https://drive.google.com/uc?export=view&id=1TKCPHetmOc9MmwUNZJAfo5G1U8-8_ZYS" alt="Home Screen" width="300"/>
+   <img src="https://drive.google.com/uc?export=view&id=1tnfDzw3tNqcwGMyLzk4uPBlWaCQiySRK" alt="Home Screen" width="300"/>
+   <img src="https://drive.google.com/uc?export=view&id=1Nbn6EO5iVKBihT3TkA5dDWcwZVW5i4d3" alt="Home Screen" width="300"/>
+</div>
 
 ### Task Details Screen
 
-<img src="https://drive.google.com/uc?export=view&id=1g5Oicvf2R_p9-h5afzav6QmTQ-tz4DVI" alt="Home Screen" width="300"/>
-<img src="https://drive.google.com/uc?export=view&id=1Hl6lqx2dREkPZKiuLwU1SiFAeQugn02G" alt="Home Screen" width="300"/>
+<div style="display: flex; gap: 10px;">
+   <img src="https://drive.google.com/uc?export=view&id=1g5Oicvf2R_p9-h5afzav6QmTQ-tz4DVI" alt="Home Screen" width="300"/>
+   <img src="https://drive.google.com/uc?export=view&id=1Hl6lqx2dREkPZKiuLwU1SiFAeQugn02G" alt="Home Screen" width="300"/>
+</div>
 
 ### Create Task Screen
 
