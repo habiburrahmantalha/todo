@@ -46,15 +46,15 @@ jobs:
       - name: Set up Keystore
         # Decode and save the keystore file
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > $GITHUB_WORKSPACE/android/app/keystore.jks
 
       - name: Configure Signing Key
         # Create the key.properties file with signing information
         run: |
-          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > key.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> key.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> key.properties
-          echo "storeFile=keystore.jks" >> key.properties
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_WORKSPACE/android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_WORKSPACE/android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> $GITHUB_WORKSPACE/android/key.properties
+          echo "storeFile=keystore.jks" >> $GITHUB_WORKSPACE/android/key.properties
 
       - name: Build Android Release
         run: flutter build apk --release --dart-define=API_KEY_TODO=${{ secrets.API_KEY_TODO }} --dart-define=API_KEY_FIREBASE_ANDROID=${{ secrets.API_KEY_FIREBASE_ANDROID }} --dart-define=API_KEY_FIREBASE_IOS=${{ secrets.API_KEY_FIREBASE_IOS }}
