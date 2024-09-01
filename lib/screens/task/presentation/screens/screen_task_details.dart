@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo/core/constants/enums.dart';
+import 'package:todo/core/resource/resource.dart';
 import 'package:todo/core/utils/extensions.dart';
 import 'package:todo/core/utils/utils.dart';
 import 'package:todo/router/router.dart';
@@ -12,6 +14,7 @@ import 'package:todo/screens/home/task_list/domain/entities/task.dart';
 import 'package:todo/screens/task/presentation/blocs/task_bloc.dart';
 import 'package:todo/screens/task/presentation/widgets/comment_list.dart';
 import 'package:todo/widgets/bottom_sheet_button.dart';
+import 'package:todo/widgets/loading_indicator.dart';
 import 'package:todo/widgets/raw_button.dart';
 
 class ScreenTaskDetails extends StatefulWidget {
@@ -46,7 +49,7 @@ class _ScreenTaskDetailsState extends State<ScreenTaskDetails> {
         listener: (context, state) {
           if(state.statusTaskDelete?.isSuccess == true){
             context.go(ScreenHome.routeName);
-            FBroadcast.instance().broadcast("reload_task");
+            FBroadcast.instance().broadcast(R.string.reloadTask);
             showOkToast(context.tr("task_deleted"), type: ToastType.error);
           }
           else if(state.statusTaskDelete?.isFailed == true){
@@ -58,6 +61,10 @@ class _ScreenTaskDetailsState extends State<ScreenTaskDetails> {
             appBar: AppBar(
               title: Text(context.tr("task_details")),
               actions: [
+                state.statusTaskDelete?.isLoading == true ? const Padding(
+                  padding: EdgeInsets.only(right: 4),
+                  child: LoadingIndicator(),
+                ) :
                 RawButton(
                     color: Colors.transparent,
                     margin: const EdgeInsets.only(right: 8),
@@ -113,7 +120,12 @@ class _ScreenTaskDetailsState extends State<ScreenTaskDetails> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                if(widget.task?.status == TaskStatus.done)
+                                Text(context.tr("completed_on"), style: Theme.of(context).textTheme.titleSmall,),
+                                if(widget.task?.status == TaskStatus.done)
                                 Text(widget.task?.dueDate?.toddMMMyyyy() ?? "", style: Theme.of(context).textTheme.bodySmall),
+                                Text(context.tr("created_on"), style: Theme.of(context).textTheme.titleSmall,),
+                                Text(widget.task?.createdAt?.toddMMMyyyy() ?? "", style: Theme.of(context).textTheme.bodySmall),
                                 const Divider(),
                                 Text(context.tr("title"), style: Theme.of(context).textTheme.titleSmall,),
                                 Text((widget.task?.content ?? ""), style: Theme.of(context).textTheme.titleMedium,),

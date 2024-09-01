@@ -22,14 +22,14 @@ class SetDescriptionEvent extends TaskEvent {
   List<Object> get props => [value];
 }
 
-class SetDateEvent extends TaskEvent {
-  final DateTime? value;
-
-  const SetDateEvent(this.value);
-
-  @override
-  List<Object?> get props => [value];
-}
+// class SetDateEvent extends TaskEvent {
+//   final DateTime? value;
+//
+//   const SetDateEvent(this.value);
+//
+//   @override
+//   List<Object?> get props => [value];
+// }
 
 class SetStatusEvent extends TaskEvent {
   final TaskStatus value;

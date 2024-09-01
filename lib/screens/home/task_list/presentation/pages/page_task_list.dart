@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/constants/enums.dart';
+import 'package:todo/core/resource/resource.dart';
 import 'package:todo/router/router.dart';
 import 'package:todo/screens/home/task_list/presentation/blocs/task_list_cubit.dart';
 import 'package:todo/screens/home/task_list/presentation/pages/page_task_view.dart';
@@ -27,7 +28,7 @@ class _PageTaskListState extends State<PageTaskList> with AutomaticKeepAliveClie
   void initState() {
     super.initState();
 
-    FBroadcast.instance().register("reload_task", (_, __){
+    FBroadcast.instance().register(R.string.reloadTask, (_, __){
       reloadTaskList();
     }, context: this);
   }
@@ -52,11 +53,6 @@ class _PageTaskListState extends State<PageTaskList> with AutomaticKeepAliveClie
                         ],
                       ),
                       onTap: ()=> context.go(RouterPaths.taskCreatePath)
-                          // .then((value){
-                          //   if( (value as bool?) == true){
-                          //     reloadTaskList();
-                          //   }
-                          // })
                   )
                 ],
               ),

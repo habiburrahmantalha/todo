@@ -23,41 +23,46 @@ class TaskProgressBloc extends Bloc<TaskProgressEvent, TaskProgressState> {
       switch(event){
 
         case UpdateTaskStatusEvent():
-          emit(state.copyWith(status: LoadingStatus.loading));
+          emit(state.copyWith(statusUpdate: LoadingStatus.loading));
+          if(event.status == TaskStatus.todo || event.status == TaskStatus.done) {
+            _timer?.cancel();
+            String startDate = state.taskDB?.startTime ?? "";
+            int seconds = DateTime.now().difference(DateTime.tryParse(startDate) ??  DateTime.now()).inSeconds;
+            TaskDB updatedTaskDb = TaskDB(taskId: task.id, startTime: "", duration: seconds + (state.taskDB?.duration ?? 0));
+            await DatabaseHelper().updateTask(updatedTaskDb);
+          }
+
           TaskDB? taskDB = await DatabaseHelper().getTaskById(task.id);
           String startDate = taskDB?.startTime ?? "";
           int seconds = DateTime.now().difference(DateTime.tryParse(startDate) ??  DateTime.now()).inSeconds;
           int duration = (taskDB?.duration ?? 0) + seconds;
-          if(event.status == TaskStatus.todo || event.status == TaskStatus.done){
-            const StopTaskEvent();
-          }
+
           RequestTask request = RequestTask(
               labels: [event.status.value],
               duration: duration > 0 ? duration : null,
-              durationUnit: duration > 0 ? "minute" : null
+              durationUnit: duration > 0 ? "minute" : null,
+              updatedAt: DateTime.now().toIso8601String(),
           );
           try {
             await repository.updateTaskStatus(id: task.id, request: request);
-            //add(const GetTaskListEvent());
-            emit(state.copyWith(status: LoadingStatus.success));
+            emit(state.copyWith(statusUpdate: LoadingStatus.success));
           }
           catch(e){
             printDebug("UpdateTaskStatusEvent $e");
-            emit(state.copyWith(status: LoadingStatus.failed));
+            emit(state.copyWith(statusUpdate: LoadingStatus.failed));
           }
         case DeleteTaskEvent():
-          emit(state.copyWith(status: LoadingStatus.loading));
+          emit(state.copyWith(statusDelete: LoadingStatus.loading));
           try {
             await repository.deleteTask(task.id);
-            //add(const GetTaskListEvent());
-            emit(state.copyWith(status: LoadingStatus.success));
+            emit(state.copyWith(statusDelete: LoadingStatus.success));
           }
           catch(e){
             printDebug("DeleteTaskEvent $e");
-            emit(state.copyWith(status: LoadingStatus.failed));
+            emit(state.copyWith(statusDelete: LoadingStatus.failed));
           }
         case ResetTaskUpdateStatusEvent():
-          emit(state.copyWith(status: LoadingStatus.initial));
+          emit(state.copyWith(statusDelete: LoadingStatus.initial, statusUpdate: LoadingStatus.initial));
         case GetLocalTaskEvent():
           try {
             TaskDB? taskDB = await DatabaseHelper().getTaskById(task.id);

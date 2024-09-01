@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo/generated/assets.dart';
+import 'package:todo/router/router.dart';
 import 'package:todo/screens/home/task_list/domain/entities/task.dart';
 import 'package:todo/screens/home/task_list/presentation/blocs/task_list_cubit.dart';
 import 'package:todo/screens/home/task_list/presentation/widgets/task_card_view.dart';
@@ -25,7 +27,9 @@ class TaskListView extends StatelessWidget {
                   button: RawButton(
                       padding: const EdgeInsets.all(12),
                       child: Center(child: Text(context.tr("create_task"), style: Theme.of(context).textTheme.titleMedium)),
-                      onTap: (){}
+                      onTap: (){
+                        context.go(RouterPaths.taskCreatePath);
+                      }
                   ),
                   image: Image.asset(Assets.imagesEmpty, height: 128,),
                 ) :

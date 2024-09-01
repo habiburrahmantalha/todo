@@ -1,22 +1,23 @@
 class RequestTask {
   RequestTask({
       this.content, 
-      this.dueDatetime, 
+      this.updatedAt,
       this.description, 
       this.labels, 
       this.duration, 
-      this.durationUnit,});
+      this.durationUnit,
+  });
 
   RequestTask.fromJson(dynamic json) {
     content = json['content'];
-    dueDatetime = json['due_datetime'];
+    updatedAt = json['due_datetime'];
     description = json['description'];
     labels = json['labels'] != null ? json['labels'].cast<String>() : [];
     duration = json['duration'];
     durationUnit = json['duration_unit'];
   }
   String? content;
-  String? dueDatetime;
+  String? updatedAt;
   String? description;
   List<String>? labels;
   int? duration;
@@ -25,7 +26,7 @@ class RequestTask {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['content'] = content;
-    map['due_datetime'] = dueDatetime;
+    map['due_datetime'] = updatedAt;
     map['description'] = description;
     map['labels'] = labels;
     map['duration'] = duration;

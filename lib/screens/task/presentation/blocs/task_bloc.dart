@@ -23,8 +23,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           emit(state.copyWith(title: event.value));
         case SetDescriptionEvent():
           emit(state.copyWith(description: event.value));
-        case SetDateEvent():
-          emit(state.copyWith(date: event.value));
+        // case SetDateEvent():
+        //   emit(state.copyWith(date: event.value));
         case SetStatusEvent():
           emit(state.copyWith(taskStatus: event.value));
         case CreateTaskEvent():
@@ -33,7 +33,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             await repository.createTask(RequestTask(
               content: state.title,
               description: state.description,
-              dueDatetime: state.date?.toIso8601String(),
+              updatedAt: DateTime.now().toIso8601String(),
               labels: [state.taskStatus?.value ?? TaskStatus.todo.value]
             ));
             emit(state.copyWith(statusTaskCreate: LoadingStatus.success));
@@ -50,7 +50,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             await repository.updateTask(event.id,RequestTask(
               content: state.title,
               description: state.description,
-              dueDatetime: state.date?.toIso8601String(),
+              updatedAt: DateTime.now().toIso8601String(),
               labels: [state.taskStatus?.value ?? TaskStatus.todo.value],
               duration: duration > 0 ? duration : null,
               durationUnit: duration > 0 ? "minute" : null

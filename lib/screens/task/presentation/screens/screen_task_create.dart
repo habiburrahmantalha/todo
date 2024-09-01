@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/constants/enums.dart';
+import 'package:todo/core/resource/resource.dart';
 import 'package:todo/core/utils/utils.dart';
 import 'package:todo/screens/home/presentation/screens/screen_home.dart';
 import 'package:todo/screens/home/task_list/domain/entities/task.dart';
@@ -29,21 +30,24 @@ class ScreenTaskCreate extends StatefulWidget {
 class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
 
   final formKey = GlobalKey<FormState>();
-  TextEditingController dateController = TextEditingController();
-  FocusNode dateFocusNode = FocusNode();
+  // TextEditingController dateController = TextEditingController();
+  // FocusNode dateFocusNode = FocusNode();
   TextEditingController statusController = TextEditingController();
   FocusNode statusFocusNode = FocusNode();
   @override
   void initState() {
     super.initState();
     if(widget.task != null){
-      DateTime? date = widget.task?.dueDate;
-      if(date != null){
-        dateController.text = "${date.year}-${date.month}-${date.day}";
-      }
+      // DateTime? date = widget.task?.dueDate;
+      // if(date != null){
+      //   dateController.text = "${date.year}-${date.month}-${date.day}";
+      // }
       statusController.text = widget.task?.status.title ?? TaskStatus.todo.title;
       context.read<TaskBloc>().add(SetStatusEvent(widget.task?.status ?? TaskStatus.todo));
-      context.read<TaskBloc>().add(SetDateEvent(widget.task?.dueDate));
+      // context.read<TaskBloc>().add(SetDateEvent(widget.task?.dueDate));
+    }else{
+      context.read<TaskBloc>().add(const SetStatusEvent(TaskStatus.todo));
+      statusController.text = TaskStatus.todo.title;
     }
   }
 
@@ -58,12 +62,14 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
       listener: (context, state){
         if(state.statusTaskCreate?.isSuccess == true){
           context.go(ScreenHome.routeName);
-          FBroadcast.instance().broadcast("reload_task");
+          FBroadcast.instance().broadcast(R.string.reloadTask);
+          FBroadcast.instance().broadcast(R.string.switchTab, value: {"index": state.taskStatus});
           showOkToast(context.tr("task_created"), type: ToastType.success);
         }
         else if(state.statusTaskUpdate?.isSuccess == true){
           context.go(ScreenHome.routeName);
-          FBroadcast.instance().broadcast("reload_task");
+          FBroadcast.instance().broadcast(R.string.reloadTask);
+          FBroadcast.instance().broadcast(R.string.switchTab, value: {"index": state.taskStatus});
           showOkToast(context.tr("task_updated"), type: ToastType.success);
         }
         else if(state.statusTaskCreate?.isFailed == true || state.statusTaskUpdate?.isFailed == true){
@@ -87,6 +93,12 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
                       onChanged: (value){
                         context.read<TaskBloc>().add(SetTitleEvent(value));
                       },
+                      validator: (value){
+                        if(value == null || value.isEmpty){
+                          return context.tr("please_enter_title");
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 12,),
                     InputTextFormField(
@@ -99,27 +111,27 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
                       },
                     ),
                     const SizedBox(height: 12,),
-                    InputTextFormField(
-                      focusNode: dateFocusNode,
-                      controller: dateController,
-                      readOnly: true,
-                      labelText: context.tr("due_date"),
-                      onTap: (){
-                        showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-                          lastDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 90),
-                        ).then((selectedDate) {
-                          if (selectedDate != null) {
-                            dateController.text = "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}";
-                            dateFocusNode.unfocus();
-                            setDueDateTime(selectedDate);
-                          }
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 12,),
+                    // InputTextFormField(
+                    //   focusNode: dateFocusNode,
+                    //   controller: dateController,
+                    //   readOnly: true,
+                    //   labelText: context.tr("due_date"),
+                    //   onTap: (){
+                    //     showDatePicker(
+                    //       context: context,
+                    //       initialDate: DateTime.now(),
+                    //       firstDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+                    //       lastDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 90),
+                    //     ).then((selectedDate) {
+                    //       if (selectedDate != null) {
+                    //         dateController.text = "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}";
+                    //         dateFocusNode.unfocus();
+                    //         setDueDateTime(selectedDate);
+                    //       }
+                    //     });
+                    //   },
+                    // ),
+                    // const SizedBox(height: 12,),
                     InputTextFormField(
                       focusNode: statusFocusNode,
                       controller: statusController,
@@ -141,10 +153,12 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
                 color: Theme.of(context).primaryColor,
                 radius: 8,
                 onTap: (){
-                  if(widget.task != null){
-                    context.read<TaskBloc>().add(UpdateTaskEvent(widget.task?.id ?? ""));
-                  }else{
-                    context.read<TaskBloc>().add(const CreateTaskEvent());
+                  if(formKey.currentState?.validate() == true) {
+                    if (widget.task != null) {
+                      context.read<TaskBloc>().add(UpdateTaskEvent(widget.task?.id ?? ""));
+                    } else {
+                      context.read<TaskBloc>().add(const CreateTaskEvent());
+                    }
                   }
                 },
                 child: state.statusTaskCreate?.isLoading == true || state.statusTaskUpdate?.isLoading == true ?
@@ -156,10 +170,10 @@ class _ScreenTaskCreateState extends State<ScreenTaskCreate> {
     );
   }
 
-  void setDueDateTime(DateTime selectedDate) {
-    if (!mounted) return;
-    context.read<TaskBloc>().add(SetDateEvent(selectedDate));
-  }
+  // void setDueDateTime(DateTime selectedDate) {
+  //   if (!mounted) return;
+  //   context.read<TaskBloc>().add(SetDateEvent(selectedDate));
+  // }
 }
 
 showSelectStatusBottomSheet(BuildContext context, ValueChanged<TaskStatus> onSelect){

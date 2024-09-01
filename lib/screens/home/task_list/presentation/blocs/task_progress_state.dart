@@ -5,30 +5,34 @@ class TaskProgressState extends Equatable {
   final TaskDB? taskDB;
   final bool isStarted;
   final int duration;
-  final LoadingStatus status;
+  final LoadingStatus statusUpdate;
+  final LoadingStatus statusDelete;
 
 
   const TaskProgressState({
     this.taskDB,
     this.isStarted = false,
     this.duration = 0,
-    this.status = LoadingStatus.initial,
+    this.statusUpdate = LoadingStatus.initial,
+    this.statusDelete = LoadingStatus.initial,
   });
 
   @override
-  List<Object?> get props => [taskDB, isStarted, duration, status];
+  List<Object?> get props => [taskDB, isStarted, duration, statusUpdate, statusDelete];
 
   TaskProgressState copyWith({
     TaskDB? taskDB,
     bool? isStarted,
     int? duration,
-    LoadingStatus? status,
+    LoadingStatus? statusUpdate,
+    LoadingStatus? statusDelete,
   }) {
     return TaskProgressState(
       taskDB: taskDB ?? this.taskDB,
       isStarted: isStarted ?? this.isStarted,
       duration: duration ?? this.duration,
-      status: status ?? this.status,
+      statusUpdate: statusUpdate ?? this.statusUpdate,
+      statusDelete: statusDelete ?? this.statusDelete,
     );
   }
 }

@@ -28,15 +28,18 @@ class TaskCardView extends StatelessWidget {
         ..add(const GetLocalTaskEvent()),
       child: BlocConsumer<TaskProgressBloc, TaskProgressState>(
         listenWhen: (prev, current){
-          return prev.status != current.status;
+          return prev.statusDelete != current.statusDelete || prev.statusUpdate != current.statusUpdate;
         },
         listener: (context, state){
-          if(state.status.isSuccess){
+          if(state.statusUpdate.isSuccess){
             showOkToast(context.tr("task_updated"), type: ToastType.success);
-            //context.read<TaskProgressBloc>().add(const ResetTaskUpdateStatusEvent());
             context.read<TaskListCubit>().getTaskList();
           }
-          else if(state.status.isFailed){
+          else if(state.statusDelete.isSuccess){
+            showOkToast(context.tr("task_deleted"), type: ToastType.error);
+            context.read<TaskListCubit>().getTaskList();
+          }
+          else if(state.statusUpdate.isFailed || state.statusDelete.isFailed ){
             showOkToast(context.tr("task_update_failed"), type: ToastType.error);
             context.read<TaskProgressBloc>().add(const ResetTaskUpdateStatusEvent());
           }
@@ -59,8 +62,9 @@ class TaskCardView extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if(task.dueDate != null)
-                              Text("${context.tr("due_date")}: ${task.dueDate?.toddMMMyyyy() ?? ""}", style: Theme.of(context).textTheme.bodySmall),
+                            task.status == TaskStatus.done ?
+                            Text("${context.tr("completed_on")}: ${task.dueDate?.toddMMMyyyy() ?? ""}", style: Theme.of(context).textTheme.bodySmall) :
+                            Text("${context.tr("created_on")}: ${task.createdAt?.toddMMMyyyy() ?? ""}", style: Theme.of(context).textTheme.bodySmall) ,
                             if((state.taskDB?.duration ?? 0) + state.duration > 0)
                               Text("${context.tr("spent")}: ${state.isStarted ?  formatDuration((state.taskDB?.duration ?? 0) + state.duration) :
                               formatDuration(state.taskDB?.duration ?? 0)}", style: Theme.of(context).textTheme.bodySmall),
@@ -68,7 +72,8 @@ class TaskCardView extends StatelessWidget {
                           ],
                         ),
                         const Spacer(),
-                        state.status.isLoading || (state.status.isSuccess && stateTaskList.status.isLoading)? const Padding(
+                        (state.statusDelete.isLoading || state.statusUpdate.isLoading) ||
+                            ((state.statusDelete.isSuccess || state.statusUpdate.isSuccess) && stateTaskList.status.isLoading)? const Padding(
                           padding: EdgeInsets.all(12),
                           child: LoadingIndicator(),
                         ): Row(
@@ -90,6 +95,7 @@ class TaskCardView extends StatelessWidget {
                                     }
                                   }
                               ),
+                            if(task.status != TaskStatus.done)
                             RawButton(
                                 padding: const EdgeInsets.all(12),
                                 child: Icon( Icons.check,
@@ -97,14 +103,6 @@ class TaskCardView extends StatelessWidget {
                                 ),
                                 onTap: (){
                                   context.read<TaskProgressBloc>().add(const UpdateTaskStatusEvent(TaskStatus.done));
-                                  // if(state.isStarted) {
-                                  //   context.read<TaskProgressCubit>().endTask();
-                                  // }else{
-                                  //   if(task.status == TaskStatus.todo){
-                                  //     context.read<TaskListBloc>().add(UpdateTaskStatusEvent(task, TaskStatus.inProgress));
-                                  //   }
-                                  //   context.read<TaskProgressCubit>().startTask();
-                                  // }
                                 }
                             ),
                             RawButton(

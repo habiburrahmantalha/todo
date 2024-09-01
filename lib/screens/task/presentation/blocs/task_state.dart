@@ -4,7 +4,7 @@ class TaskState extends Equatable {
 
   final String? title;
   final String? description;
-  final DateTime? date;
+  //final DateTime? date;
   final TaskStatus? taskStatus;
   final LoadingStatus? statusTaskCreate;
   final LoadingStatus? statusTaskUpdate;
@@ -18,7 +18,7 @@ class TaskState extends Equatable {
       [
         title,
         description,
-        date,
+        //date,
         taskStatus,
         statusTaskCreate,
         statusTaskUpdate,
@@ -31,7 +31,7 @@ class TaskState extends Equatable {
   const TaskState({
     this.title,
     this.description,
-    this.date,
+    //this.date,
     this.taskStatus,
     this.statusTaskCreate,
     this.statusTaskUpdate,
@@ -56,7 +56,7 @@ class TaskState extends Equatable {
     return TaskState(
       title: title ?? this.title,
       description: description ?? this.description,
-      date: date ?? this.date,
+      //date: date ?? this.date,
       taskStatus: taskStatus ?? this.taskStatus,
       statusTaskCreate: statusTaskCreate ?? this.statusTaskCreate,
       statusTaskUpdate: statusTaskUpdate ?? this.statusTaskUpdate,
