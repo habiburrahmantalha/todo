@@ -40,9 +40,14 @@ jobs:
       #name: Run widget tests for our flutter project.
       #- run: flutter test
 
+      - name: Accept Android Licenses
+        run: yes | flutter doctor --android-licenses
+
+      - name: Increase Java Heap Size
+        run: echo "org.gradle.jvmargs=-Xmx4096M" >> ~/.gradle/gradle.properties
+
       - name: Build Android Release
         run: flutter build apk --release --dart-define=API_KEY_TODO=${{ secrets.API_KEY_TODO }} --dart-define=API_KEY_FIREBASE_ANDROID=${{ secrets.API_KEY_FIREBASE_ANDROID }} --dart-define=API_KEY_FIREBASE_IOS=${{ secrets.API_KEY_FIREBASE_IOS }}
-
 
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v3
